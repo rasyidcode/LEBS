@@ -31,6 +31,41 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
+$routes->get('/api/v1/testRoute', 'API\User::testRoute');
+
+// Web
+$routes->group('user', function($routes)
+{
+	$routes->get('verification', 'WEB\User::verificationView');
+	$routes->get('verification/template', 'WEB\User::emailTemplate');
+});
+
+// API
+$routes->group('api', function($routes)
+{
+	$routes->group('v1', function($routes)
+	{
+		// Test route
+		$routes->group('test', function($routes)
+		{
+			$routes->post('sendMail', 'API\Test::sendMail');
+			$routes->get('testCaesarCipher_Encrypt', 'API\Test::testCaesarCipherEncrypt');
+			$routes->get('testCaesarCipher_Decrypt', 'API\Test::testCaesarCipherDecrypt');
+			$routes->get('testChiperAlgorithm', 'API\Test::testChiperAlgorithm');
+			$routes->get('testDecryptUsernameFromEmail', 'API\Test::testDecryptUsernameFromEmail');
+			$routes->get('testEnvironment', 'API\Test::testEnvironment');
+		});
+
+		// User route
+		$routes->group('user', function($routes)
+		{
+			$routes->post('signIn', 'API\User::signIn');
+			$routes->post('signUp', 'API\User::signUp');
+			$routes->get('me', 'API\User::profile');
+			$routes->post('forgotPassword', 'API\User::forgotPassword');
+		});
+	});
+});
 
 /**
  * --------------------------------------------------------------------

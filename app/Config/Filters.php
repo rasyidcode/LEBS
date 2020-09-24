@@ -7,9 +7,12 @@ class Filters extends BaseConfig
 	// Makes reading things below nicer,
 	// and simpler to change out script that's used.
 	public $aliases = [
-		'csrf'     => \CodeIgniter\Filters\CSRF::class,
-		'toolbar'  => \CodeIgniter\Filters\DebugToolbar::class,
-		'honeypot' => \CodeIgniter\Filters\Honeypot::class,
+		'csrf'     		=> \CodeIgniter\Filters\CSRF::class,
+		'toolbar'  		=> \CodeIgniter\Filters\DebugToolbar::class,
+		'honeypot' 		=> \CodeIgniter\Filters\Honeypot::class,
+		'authFilter'	=> \App\Filters\AuthFilter::class,
+		'signInFilter'	=> \App\Filters\SignInFilter::class,
+		'signUpFilter'	=> \App\Filters\SignUpFilter::class,
 	];
 
 	// Always applied before every request
@@ -32,5 +35,21 @@ class Filters extends BaseConfig
 	// List filter aliases and any before/after uri patterns
 	// that they should run on, like:
 	//    'isLoggedIn' => ['before' => ['account/*', 'profiles/*']],
-	public $filters = [];
+	public $filters = [
+		'authFilter' => [
+			'before'	=> [
+				'api/v1/user/profile'
+			]
+		],
+		'signInFilter' => [
+			'before' => [
+				'api/v1/user/signIn'
+			]
+		],
+		'signUpFilter'	=> [
+			'before'	=> [
+				'api/v1/user/signUp'
+			]
+		]
+	];
 }
